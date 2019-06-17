@@ -592,6 +592,23 @@ class ExamplesIntegrationTest {
     }
 
     @TestFactory
+    Stream<DynamicTest> DependencyRulesTest() {
+        return ExpectedTestFailures
+                .forTests(
+                        com.tngtech.archunit.exampletest.DependencyRulesTest.class,
+                        com.tngtech.archunit.exampletest.junit4.DependencyRulesTest.class,
+                        com.tngtech.archunit.exampletest.junit5.DependencyRulesTest.class)
+
+                .ofRule("no classes should access classes that reside in an upper package")
+                .by(callFromConstructor(UseCaseTwoController.class).toConstructor(AbstractController.class).inLine(6))
+                .by(callFromConstructor(InheritedControllerImpl.class).toConstructor(AbstractController.class).inLine(5))
+                .by(callFromMethod(DaoCallingService.class, "violateLayerRulesTrickily").toConstructor(SomeMediator.class, ServiceViolatingLayerRules.class).inLine(18))
+                .by(callFromMethod(DaoCallingService.class, "violateLayerRulesTrickily").toMethod(SomeMediator.class, "violateLayerRulesIndirectly").inLine(18))
+
+                .toDynamicTests();
+    }
+
+    @TestFactory
     Stream<DynamicTest> FrozenRulesTest() {
         return ExpectedTestFailures
                 .forTests(
