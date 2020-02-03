@@ -42,10 +42,10 @@ import com.tngtech.archunit.base.Optional;
 import com.tngtech.archunit.core.MayResolveTypesViaReflection;
 import com.tngtech.archunit.core.domain.JavaAnnotation;
 import com.tngtech.archunit.core.domain.JavaClass;
+import com.tngtech.archunit.core.domain.JavaClassDescriptor;
 import com.tngtech.archunit.core.domain.JavaEnumConstant;
 import com.tngtech.archunit.core.domain.JavaMethod;
 import com.tngtech.archunit.core.domain.JavaModifier;
-import com.tngtech.archunit.core.domain.JavaType;
 import com.tngtech.archunit.core.importer.DomainBuilders.JavaAnnotationBuilder.ValueBuilder;
 import com.tngtech.archunit.core.importer.RawAccessRecord.CodeUnit;
 import org.objectweb.asm.AnnotationVisitor;
@@ -102,8 +102,8 @@ class JavaClassProcessor extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         LOG.debug("Analyzing class '{}'", name);
-        JavaType javaType = JavaTypeImporter.createFromAsmObjectTypeName(name);
-        if (alreadyImported(javaType)) {
+        JavaClassDescriptor descriptor = JavaClassDescriptorImporter.createFromAsmObjectTypeName(name);
+        if (alreadyImported(descriptor)) {
             return;
         }
 
@@ -116,17 +116,17 @@ class JavaClassProcessor extends ClassVisitor {
 
         javaClassBuilder = new DomainBuilders.JavaClassBuilder()
                 .withSourceUri(sourceURI)
-                .withType(javaType)
+                .withDescriptor(descriptor)
                 .withInterface(opCodeForInterfaceIsPresent)
                 .withEnum(opCodeForEnumIsPresent)
                 .withModifiers(JavaModifier.getModifiersForClass(access));
 
-        className = javaType.getName();
+        className = descriptor.getFullyQualifiedClassName();
         declarationHandler.onNewClass(className, superClassName, interfaceNames);
     }
 
-    private boolean alreadyImported(JavaType javaType) {
-        return !declarationHandler.isNew(javaType.getName());
+    private boolean alreadyImported(JavaClassDescriptor descriptor) {
+        return !declarationHandler.isNew(descriptor.getFullyQualifiedClassName());
     }
 
     // NOTE: For some reason ASM claims superName == java/lang/Object for Interfaces???
@@ -207,7 +207,7 @@ class JavaClassProcessor extends ClassVisitor {
 
         DomainBuilders.JavaFieldBuilder fieldBuilder = new DomainBuilders.JavaFieldBuilder()
                 .withName(name)
-                .withType(JavaTypeImporter.importAsmType(Type.getType(desc)))
+                .withType(JavaClassDescriptorImporter.importAsmType(Type.getType(desc)))
                 .withModifiers(JavaModifier.getModifiersForField(access))
                 .withDescriptor(desc);
         declarationHandler.onDeclaredField(fieldBuilder);
@@ -229,26 +229,26 @@ class JavaClassProcessor extends ClassVisitor {
                 .withName(name)
                 .withModifiers(JavaModifier.getModifiersForMethod(access))
                 .withParameters(typesFrom(methodType.getArgumentTypes()))
-                .withReturnType(JavaTypeImporter.importAsmType(methodType.getReturnType()))
+                .withReturnType(JavaClassDescriptorImporter.importAsmType(methodType.getReturnType()))
                 .withDescriptor(desc)
                 .withThrowsClause(typesFrom(exceptions));
 
         return new MethodProcessor(className, accessHandler, codeUnitBuilder);
     }
 
-    private List<JavaType> typesFrom(Type[] asmTypes) {
-        List<JavaType> result = new ArrayList<>();
+    private List<JavaClassDescriptor> typesFrom(Type[] asmTypes) {
+        List<JavaClassDescriptor> result = new ArrayList<>();
         for (Type asmType : asmTypes) {
-            result.add(JavaTypeImporter.importAsmType(asmType));
+            result.add(JavaClassDescriptorImporter.importAsmType(asmType));
         }
         return result;
     }
 
-    private List<JavaType> typesFrom(String[] throwsDeclarations) {
-        List<JavaType> result = new ArrayList<>();
+    private List<JavaClassDescriptor> typesFrom(String[] throwsDeclarations) {
+        List<JavaClassDescriptor> result = new ArrayList<>();
         if (throwsDeclarations != null) {
             for (String throwsDeclaration : throwsDeclarations) {
-                result.add(JavaTypeImporter.createFromAsmObjectTypeName(throwsDeclaration));
+                result.add(JavaClassDescriptorImporter.createFromAsmObjectTypeName(throwsDeclaration));
             }
         }
         return result;
@@ -292,7 +292,7 @@ class JavaClassProcessor extends ClassVisitor {
     private static List<String> namesOf(Type[] types) {
         ImmutableList.Builder<String> result = ImmutableList.builder();
         for (Type type : types) {
-            result.add(JavaTypeImporter.importAsmType(type).getName());
+            result.add(JavaClassDescriptorImporter.importAsmType(type).getFullyQualifiedClassName());
         }
         return result.build();
     }
@@ -486,7 +486,7 @@ class JavaClassProcessor extends ClassVisitor {
     }
 
     private static DomainBuilders.JavaAnnotationBuilder annotationBuilderFor(String desc) {
-        return new DomainBuilders.JavaAnnotationBuilder().withType(JavaTypeImporter.importAsmType(Type.getType(desc)));
+        return new DomainBuilders.JavaAnnotationBuilder().withType(JavaClassDescriptorImporter.importAsmType(Type.getType(desc)));
     }
 
     private static class AnnotationProcessor extends AnnotationVisitor {
@@ -519,7 +519,7 @@ class JavaClassProcessor extends ClassVisitor {
             return new AnnotationArrayProcessor(new AnnotationArrayContext() {
                 @Override
                 public String getDeclaringAnnotationTypeName() {
-                    return annotationBuilder.getJavaType().getName();
+                    return annotationBuilder.getTypeDescriptor().getFullyQualifiedClassName();
                 }
 
                 @Override
@@ -682,13 +682,13 @@ class JavaClassProcessor extends ClassVisitor {
 
             @MayResolveTypesViaReflection(reason = "Resolving primitives does not really use reflection")
             private Optional<Class<?>> resolveComponentTypeFrom(String name) {
-                JavaType type = JavaType.From.name(name);
-                JavaType componentType = getComponentType(type);
+                JavaClassDescriptor descriptor = JavaClassDescriptor.From.name(name);
+                JavaClassDescriptor componentType = getComponentType(descriptor);
 
                 if (componentType.isPrimitive()) {
                     return Optional.<Class<?>>of(componentType.resolveClass());
                 }
-                if (String.class.getName().equals(componentType.getName())) {
+                if (String.class.getName().equals(componentType.getFullyQualifiedClassName())) {
                     return Optional.<Class<?>>of(String.class);
                 }
 
@@ -700,10 +700,10 @@ class JavaClassProcessor extends ClassVisitor {
                 return Optional.<Class<?>>of(Object.class);
             }
 
-            private JavaType getComponentType(JavaType type) {
-                Optional<JavaType> result = type.tryGetComponentType();
+            private JavaClassDescriptor getComponentType(JavaClassDescriptor descriptor) {
+                Optional<JavaClassDescriptor> result = descriptor.tryGetComponentType();
                 checkState(result.isPresent(), "Couldn't determine component type of array return type %s, " +
-                        "this is most likely a bug", type.getName());
+                        "this is most likely a bug", descriptor.getFullyQualifiedClassName());
 
                 return result.get();
             }

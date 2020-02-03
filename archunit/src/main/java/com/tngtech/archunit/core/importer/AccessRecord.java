@@ -102,7 +102,7 @@ interface AccessRecord<TARGET extends AccessTarget> {
             RawConstructorCallRecordProcessed(RawAccessRecord record, ImportedClasses classes) {
                 this.record = record;
                 this.classes = classes;
-                targetOwner = this.classes.getOrResolve(record.target.owner.getName());
+                targetOwner = this.classes.getOrResolve(record.target.owner.getFullyQualifiedClassName());
                 callerSupplier = createCallerSupplier(record.caller, classes);
             }
 
@@ -154,7 +154,7 @@ interface AccessRecord<TARGET extends AccessTarget> {
             RawMethodCallRecordProcessed(RawAccessRecord record, ImportedClasses classes) {
                 this.record = record;
                 this.classes = classes;
-                targetOwner = this.classes.getOrResolve(record.target.owner.getName());
+                targetOwner = this.classes.getOrResolve(record.target.owner.getFullyQualifiedClassName());
                 callerSupplier = createCallerSupplier(record.caller, classes);
             }
 
@@ -207,7 +207,7 @@ interface AccessRecord<TARGET extends AccessTarget> {
             RawFieldAccessRecordProcessed(RawAccessRecord.ForField record, ImportedClasses classes) {
                 this.record = record;
                 this.classes = classes;
-                targetOwner = this.classes.getOrResolve(record.target.owner.getName());
+                targetOwner = this.classes.getOrResolve(record.target.owner.getFullyQualifiedClassName());
                 callerSupplier = createCallerSupplier(record.caller, classes);
             }
 
