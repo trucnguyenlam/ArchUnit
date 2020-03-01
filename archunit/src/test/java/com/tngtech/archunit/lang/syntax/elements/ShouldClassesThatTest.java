@@ -37,7 +37,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.lang.syntax.elements.ClassesShouldEvaluator.filterClassesAppearingInFailureReport;
 import static com.tngtech.archunit.testutil.Assertions.assertThat;
-import static com.tngtech.archunit.testutil.Assertions.assertThatClasses;
+import static com.tngtech.archunit.testutil.Assertions.assertThatType;
+import static com.tngtech.archunit.testutil.Assertions.assertThatTypes;
 import static com.tngtech.java.junit.dataprovider.DataProviders.testForEach;
 
 @RunWith(DataProviderRunner.class)
@@ -67,7 +68,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveFullyQualifiedName(List.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -77,7 +78,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.dontHaveFullyQualifiedName(List.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -87,7 +88,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.doNotHaveFullyQualifiedName(List.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -97,7 +98,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleName(List.class.getSimpleName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -107,7 +108,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.dontHaveSimpleName(List.class.getSimpleName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -117,7 +118,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.doNotHaveSimpleName(List.class.getSimpleName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -127,7 +128,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveNameMatching(".*\\.List"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -137,7 +138,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveNameNotMatching(".*\\.List"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -147,7 +148,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameStartingWith("Lis"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -157,7 +158,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameNotStartingWith("Lis"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -167,7 +168,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameContaining("is"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -177,7 +178,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameNotContaining("is"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -187,7 +188,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameEndingWith("ist"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -197,7 +198,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.haveSimpleNameNotEndingWith("ist"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -207,7 +208,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.resideInAPackage("..tngtech.."))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
     }
 
     @Test
@@ -217,7 +218,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.resideOutsideOfPackage("..tngtech.."))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -227,7 +228,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.resideInAnyPackage("..tngtech..", "java.lang.reflect"))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingConstructor.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingConstructor.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingConstructor.class);
     }
 
     @Test
@@ -237,7 +238,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.resideOutsideOfPackages("..tngtech..", "java.lang.reflect")
         ).on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingConstructor.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class);
     }
 
     @Test
@@ -247,7 +248,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
     }
 
     @Test
@@ -257,7 +258,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPrivateClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -268,7 +269,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingProtectedClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingProtectedClass.class);
     }
 
     @Test
@@ -278,7 +279,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                 ClassAccessingPackagePrivateClass.class);
     }
 
@@ -289,7 +290,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPackagePrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPackagePrivateClass.class);
     }
 
     @Test
@@ -299,7 +300,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -310,7 +311,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
     }
 
     @Test
@@ -320,7 +321,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -331,7 +332,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
     }
 
     @Test
@@ -341,7 +342,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -352,7 +353,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -363,7 +364,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAnnotatedWith(SomeAnnotation.class))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -373,7 +374,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAnnotatedWith(SomeAnnotation.class))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -383,7 +384,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAnnotatedWith(SomeAnnotation.class.getName()))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -393,7 +394,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAnnotatedWith(SomeAnnotation.class.getName()))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -404,7 +405,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAnnotatedWith(hasNamePredicate))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -415,7 +416,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAnnotatedWith(hasNamePredicate))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -426,7 +427,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -436,7 +437,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -446,7 +447,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -457,7 +458,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -467,7 +468,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -477,7 +478,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -489,7 +490,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -500,7 +501,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -511,7 +512,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -521,7 +522,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.implement(Collection.class))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -531,7 +532,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.dontImplement(Collection.class))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -541,7 +542,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.doNotImplement(Collection.class))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -551,7 +552,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.implement(Collection.class.getName()))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -561,7 +562,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.dontImplement(Collection.class.getName()))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -571,7 +572,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.doNotImplement(Collection.class.getName()))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -581,7 +582,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.implement(classWithNameOf(Collection.class)))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -591,7 +592,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.dontImplement(classWithNameOf(Collection.class)))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -601,7 +602,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.doNotImplement(classWithNameOf(Collection.class)))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -611,7 +612,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAssignableTo(Collection.class))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -621,7 +622,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAssignableTo(Collection.class))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -631,7 +632,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAssignableTo(Collection.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -641,7 +642,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAssignableTo(Collection.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -651,7 +652,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAssignableTo(classWithNameOf(Collection.class)))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -661,7 +662,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAssignableTo(classWithNameOf(Collection.class)))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -672,7 +673,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -683,7 +684,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -694,7 +695,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -705,7 +706,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -716,7 +717,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -727,7 +728,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -738,7 +739,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingSimpleClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingCollection.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingCollection.class);
     }
 
     @Test
@@ -749,7 +750,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingSimpleClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -759,7 +760,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areEnums())
                 .on(ClassAccessingEnum.class, ClassAccessingString.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingEnum.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingEnum.class);
     }
 
     @Test
@@ -769,7 +770,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotEnums())
                 .on(ClassAccessingEnum.class, ClassAccessingString.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class);
     }
 
     @Test
@@ -779,7 +780,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areTopLevelClasses())
                 .on(ClassAccessingTopLevelClass.class, ClassAccessingStaticNestedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -789,7 +790,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotTopLevelClasses())
                 .on(ClassAccessingTopLevelClass.class, ClassAccessingStaticNestedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
     }
 
     @Test
@@ -799,7 +800,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNestedClasses())
                 .on(ClassAccessingStaticNestedClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
     }
 
     @Test
@@ -809,7 +810,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotNestedClasses())
                 .on(ClassAccessingStaticNestedClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -819,7 +820,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areMemberClasses())
                 .on(ClassAccessingStaticNestedClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingStaticNestedClass.class);
     }
 
     @Test
@@ -829,7 +830,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotMemberClasses())
                 .on(ClassAccessingStaticNestedClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -839,7 +840,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areInnerClasses())
                 .on(ClassAccessingInnerMemberClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingInnerMemberClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingInnerMemberClass.class);
     }
 
     @Test
@@ -849,7 +850,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotInnerClasses())
                 .on(ClassAccessingInnerMemberClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -859,7 +860,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areAnonymousClasses())
                 .on(ClassAccessingAnonymousClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnonymousClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnonymousClass.class);
     }
 
     @Test
@@ -869,7 +870,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotAnonymousClasses())
                 .on(ClassAccessingAnonymousClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -879,7 +880,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areLocalClasses())
                 .on(ClassAccessingLocalClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingLocalClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingLocalClass.class);
     }
 
     @Test
@@ -889,7 +890,7 @@ public class ShouldClassesThatTest {
                 noClassesShouldThatRuleStart.areNotLocalClasses())
                 .on(ClassAccessingLocalClass.class, ClassAccessingTopLevelClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingTopLevelClass.class);
     }
 
     @Test
@@ -900,7 +901,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingNestedInnerClass.class, ClassWithInnerClasses.class, ClassWithInnerClasses.InnerClass.class,
                         ClassWithInnerClasses.InnerClass.EvenMoreInnerClass.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingNestedInnerClass.class,
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingNestedInnerClass.class,
                 ClassWithInnerClasses.class, ClassWithInnerClasses.InnerClass.class, ClassWithInnerClasses.InnerClass.EvenMoreInnerClass.class,
                 ClassAccessingString.class);
     }
@@ -912,7 +913,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveFullyQualifiedName(List.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -922,7 +923,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.doNotHaveFullyQualifiedName(List.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class);
     }
 
     @Test
@@ -932,7 +933,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleName(List.class.getSimpleName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -942,7 +943,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.doNotHaveSimpleName(List.class.getSimpleName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -952,7 +953,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveNameMatching(".*\\.List"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -962,7 +963,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveNameNotMatching(".*\\.List"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -972,7 +973,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameStartingWith("Lis"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -982,7 +983,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameNotStartingWith("Lis"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -992,7 +993,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameContaining("is"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1002,7 +1003,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameNotContaining("is"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -1012,7 +1013,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameEndingWith("ist"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1022,7 +1023,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.haveSimpleNameNotEndingWith("ist"))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -1032,7 +1033,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.resideInAPackage("..tngtech.."))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1042,7 +1043,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.resideOutsideOfPackage("..tngtech.."))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
     }
 
     @Test
@@ -1052,7 +1053,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.resideInAnyPackage("..tngtech..", "java.lang.reflect"))
                 .on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingConstructor.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class);
     }
 
     @Test
@@ -1062,7 +1063,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.resideOutsideOfPackages("..tngtech..", "java.lang.reflect")
         ).on(ClassAccessingPublicClass.class, ClassAccessingString.class, ClassAccessingConstructor.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingConstructor.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingConstructor.class);
     }
 
     @Test
@@ -1072,7 +1073,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPrivateClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -1083,7 +1084,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class);
     }
 
     @Test
@@ -1093,7 +1094,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                 ClassAccessingPackagePrivateClass.class);
     }
 
@@ -1104,7 +1105,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingProtectedClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingProtectedClass.class);
     }
 
     @Test
@@ -1114,7 +1115,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -1125,7 +1126,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPackagePrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPackagePrivateClass.class);
     }
 
     @Test
@@ -1135,7 +1136,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -1146,7 +1147,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
     }
 
     @Test
@@ -1156,7 +1157,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassAccessingPublicClass.class, ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
     }
 
@@ -1167,7 +1168,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingPublicClass.class, ClassAccessingPrivateClass.class,
                         ClassAccessingPackagePrivateClass.class, ClassAccessingProtectedClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingPrivateClass.class);
     }
 
     @Test
@@ -1177,7 +1178,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAnnotatedWith(SomeAnnotation.class))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1187,7 +1188,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAnnotatedWith(SomeAnnotation.class))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -1197,7 +1198,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAnnotatedWith(SomeAnnotation.class.getName()))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1207,7 +1208,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAnnotatedWith(SomeAnnotation.class.getName()))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -1218,7 +1219,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAnnotatedWith(hasNamePredicate))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1229,7 +1230,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAnnotatedWith(hasNamePredicate))
                 .on(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingAnnotatedClass.class);
     }
 
     @Test
@@ -1239,7 +1240,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1249,7 +1250,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -1260,7 +1261,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -1270,7 +1271,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1280,7 +1281,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -1291,7 +1292,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -1302,7 +1303,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1313,7 +1314,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class, MetaAnnotatedAnnotation.class);
     }
 
     @Test
@@ -1325,7 +1326,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingMetaAnnotatedClass.class, ClassAccessingAnnotatedClass.class, ClassAccessingSimpleClass.class,
                         MetaAnnotatedAnnotation.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingMetaAnnotatedClass.class);
     }
 
     @Test
@@ -1335,7 +1336,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.implement(Collection.class))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1345,7 +1346,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.doNotImplement(Collection.class))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -1355,7 +1356,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.implement(Collection.class.getName()))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1365,7 +1366,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.doNotImplement(Collection.class.getName()))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -1375,7 +1376,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.implement(classWithNameOf(Collection.class)))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1385,7 +1386,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.doNotImplement(classWithNameOf(Collection.class)))
                 .on(ClassAccessingArrayList.class, ClassAccessingList.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingArrayList.class);
     }
 
     @Test
@@ -1395,7 +1396,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAssignableTo(Collection.class))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1405,7 +1406,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAssignableTo(Collection.class))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -1415,7 +1416,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAssignableTo(Collection.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1425,7 +1426,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAssignableTo(Collection.class.getName()))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -1435,7 +1436,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areAssignableTo(classWithNameOf(Collection.class)))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1445,7 +1446,7 @@ public class ShouldClassesThatTest {
                 classesShouldOnlyThatRuleStart.areNotAssignableTo(classWithNameOf(Collection.class)))
                 .on(ClassAccessingList.class, ClassAccessingString.class, ClassAccessingIterable.class);
 
-        assertThat(getOnlyElement(classes)).matches(ClassAccessingList.class);
+        assertThatType(getOnlyElement(classes)).matches(ClassAccessingList.class);
     }
 
     @Test
@@ -1456,7 +1457,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -1467,7 +1468,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1478,7 +1479,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -1489,7 +1490,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1500,7 +1501,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -1511,7 +1512,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingCollection.class, ClassAccessingIterable.class);
     }
 
     @Test
@@ -1522,7 +1523,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingSimpleClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingSimpleClass.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingString.class, ClassAccessingSimpleClass.class);
     }
 
     @Test
@@ -1533,7 +1534,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingSimpleClass.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingCollection.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingCollection.class);
     }
 
     @DataProvider
@@ -1551,7 +1552,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @DataProvider
@@ -1569,7 +1570,7 @@ public class ShouldClassesThatTest {
                 .on(ClassAccessingList.class, ClassAccessingString.class,
                         ClassAccessingCollection.class, ClassAccessingIterable.class);
 
-        assertThatClasses(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassAccessingList.class, ClassAccessingString.class);
     }
 
     @Test
@@ -1587,7 +1588,7 @@ public class ShouldClassesThatTest {
         Set<JavaClass> classes = filterClassesInFailureReport.apply(
                 noClasses().should().dependOnClassesThat(are(not(assignableFrom(classWithNameOf(Collection.class))))));
 
-        assertThatClasses(classes).matchInAnyOrder(
+        assertThatTypes(classes).matchInAnyOrder(
                 ClassHavingFieldOfTypeList.class, ClassHavingMethodParameterOfTypeString.class,
                 ClassHavingReturnTypeArrayList.class, ClassImplementingSerializable.class);
 
@@ -1612,7 +1613,7 @@ public class ShouldClassesThatTest {
         Set<JavaClass> classes = filterClassesInFailureReport.apply(
                 classes().should().onlyDependOnClassesThat(are(not(assignableFrom(classWithNameOf(Collection.class))))));
 
-        assertThatClasses(classes).matchInAnyOrder(ClassHavingConstructorParameterOfTypeCollection.class);
+        assertThatTypes(classes).matchInAnyOrder(ClassHavingConstructorParameterOfTypeCollection.class);
 
         classes = filterClassesInFailureReport.apply(
                 classes().should().onlyAccessClassesThat(are(not(assignableFrom(classWithNameOf(Collection.class))))));

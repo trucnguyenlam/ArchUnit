@@ -20,7 +20,8 @@ import org.junit.experimental.categories.Category;
 import static com.tngtech.archunit.core.domain.SourceTest.urlOf;
 import static com.tngtech.archunit.core.importer.ClassFileImporterTest.jarFileOf;
 import static com.tngtech.archunit.testutil.Assertions.assertThat;
-import static com.tngtech.archunit.testutil.Assertions.assertThatClasses;
+import static com.tngtech.archunit.testutil.Assertions.assertThatType;
+import static com.tngtech.archunit.testutil.Assertions.assertThatTypes;
 
 @Category(Slow.class)
 public class ClassFileImporterSlowTest {
@@ -31,48 +32,48 @@ public class ClassFileImporterSlowTest {
     public void imports_the_classpath() {
         JavaClasses classes = new ClassFileImporter().importClasspath();
 
-        assertThatClasses(classes).contain(ClassFileImporter.class, getClass());
-        assertThatClasses(classes).doNotContain(Rule.class); // Default does not import jars
+        assertThatTypes(classes).contain(ClassFileImporter.class, getClass());
+        assertThatTypes(classes).doNotContain(Rule.class); // Default does not import jars
 
         classes = importJavaBase();
 
-        assertThatClasses(classes).contain(ClassFileImporter.class, getClass(), Rule.class);
+        assertThatTypes(classes).contain(ClassFileImporter.class, getClass(), Rule.class);
     }
 
     @Test
     public void imports_packages() {
         JavaClasses classes = new ClassFileImporter().importPackages(
                 getClass().getPackage().getName(), Rule.class.getPackage().getName());
-        assertThatClasses(classes).contain(ImmutableSet.of(getClass(), Rule.class));
+        assertThatTypes(classes).contain(ImmutableSet.of(getClass(), Rule.class));
 
         classes = new ClassFileImporter().importPackages(
                 ImmutableSet.of(getClass().getPackage().getName(), Rule.class.getPackage().getName()));
-        assertThatClasses(classes).contain(ImmutableSet.of(getClass(), Rule.class));
+        assertThatTypes(classes).contain(ImmutableSet.of(getClass(), Rule.class));
     }
 
     @Test
     public void imports_packages_of_classes() {
         JavaClasses classes = new ClassFileImporter().importPackagesOf(getClass(), Rule.class);
-        assertThatClasses(classes).contain(ImmutableSet.of(getClass(), Rule.class));
+        assertThatTypes(classes).contain(ImmutableSet.of(getClass(), Rule.class));
 
         classes = new ClassFileImporter().importPackagesOf(ImmutableSet.of(getClass(), Rule.class));
-        assertThatClasses(classes).contain(ImmutableSet.of(getClass(), Rule.class));
+        assertThatTypes(classes).contain(ImmutableSet.of(getClass(), Rule.class));
     }
 
     @Test
     public void imports_jars() throws Exception {
         JavaClasses classes = new ClassFileImporter().importJar(jarFileOf(Rule.class));
-        assertThatClasses(classes).contain(Rule.class);
-        assertThatClasses(classes).doNotContain(Object.class, ImmutableList.class);
+        assertThatTypes(classes).contain(Rule.class);
+        assertThatTypes(classes).doNotContain(Object.class, ImmutableList.class);
 
         classes = new ClassFileImporter().importJars(jarFileOf(Rule.class), jarFileOf(ImmutableList.class));
-        assertThatClasses(classes).contain(Rule.class, ImmutableList.class);
-        assertThatClasses(classes).doNotContain(Object.class);
+        assertThatTypes(classes).contain(Rule.class, ImmutableList.class);
+        assertThatTypes(classes).doNotContain(Object.class);
 
         classes = new ClassFileImporter().importJars(ImmutableList.of(
                 jarFileOf(Rule.class), jarFileOf(ImmutableList.class)));
-        assertThatClasses(classes).contain(Rule.class, ImmutableList.class);
-        assertThatClasses(classes).doNotContain(Object.class);
+        assertThatTypes(classes).contain(Rule.class, ImmutableList.class);
+        assertThatTypes(classes).doNotContain(Object.class);
     }
 
     @Test
@@ -84,7 +85,7 @@ public class ClassFileImporterSlowTest {
 
         JavaClasses classes = new ClassFileImporter().importPackages(getClass().getPackage().getName());
 
-        assertThat(classes.get(JavaClass.class)).isNotNull();
+        assertThatType(classes.get(JavaClass.class)).isNotNull();
     }
 
     @Test
@@ -97,12 +98,12 @@ public class ClassFileImporterSlowTest {
                 .as("Created default package contains 'java'").isTrue();
 
         JavaPackage javaPackage = defaultPackage.getPackage("java.lang");
-        assertThatClasses(javaPackage.getClasses()).contain(Object.class, String.class, Integer.class);
-        assertThatClasses(javaPackage.getAllClasses()).contain(Object.class, Annotation.class, Field.class);
+        assertThatTypes(javaPackage.getClasses()).contain(Object.class, String.class, Integer.class);
+        assertThatTypes(javaPackage.getAllClasses()).contain(Object.class, Annotation.class, Field.class);
 
         assertThat(javaClasses.containPackage("java.util"))
                 .as("Classes contain package 'java.util'").isTrue();
-        assertThatClasses(javaClasses.getPackage("java.util").getClasses()).contain(List.class);
+        assertThatTypes(javaClasses.getPackage("java.util").getClasses()).contain(List.class);
     }
 
     private JavaClasses importJavaBase() {
