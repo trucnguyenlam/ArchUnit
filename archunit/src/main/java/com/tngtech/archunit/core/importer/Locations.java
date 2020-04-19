@@ -15,23 +15,16 @@
  */
 package com.tngtech.archunit.core.importer;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import com.tngtech.archunit.PublicAPI;
-import com.tngtech.archunit.base.ArchUnitException.LocationException;
 import com.tngtech.archunit.core.InitialConfiguration;
 
-import static com.google.common.collect.Sets.newHashSet;
 import static com.tngtech.archunit.PublicAPI.Usage.ACCESS;
-import static com.tngtech.archunit.base.ClassLoaders.getCurrentClassLoader;
-import static java.util.Collections.list;
 
 /**
  * Represents a set of {@link Location locations} of Java class files. Also offers methods to derive concrete locations (i.e. URIs) from
@@ -113,37 +106,33 @@ public final class Locations {
     private static Set<Location> getLocationsOf(String resourceName) {
         UrlSource classpath = locationResolver.get().resolveClassPath();
         NormalizedResourceName normalizedResourceName = NormalizedResourceName.from(resourceName);
-        return ImmutableSet.copyOf(getResourceLocations(getCurrentClassLoader(Locations.class), normalizedResourceName, classpath));
-    }
-
-    private static Collection<Location> getResourceLocations(ClassLoader loader, NormalizedResourceName resourceName, Iterable<URL> classpath) {
-        try {
-            Set<Location> result = newHashSet(Locations.of(list(loader.getResources(resourceName.toString()))));
-            if (result.isEmpty() && !resourceName.belongsToClassFile()) {
-                return findMissedClassesDueToLackOfPackageEntry(classpath, resourceName);
-            }
-            return result;
-        } catch (IOException e) {
-            throw new LocationException(e);
-        }
+        return ImmutableSet.copyOf(getResourceLocations(normalizedResourceName, classpath));
     }
 
     /**
-     * Unfortunately the behavior with archives is not completely consistent. Originally,
-     * {@link Locations#ofPackage(String)} simply asked all {@link java.net.URLClassLoader}s, for
-     * {@link ClassLoader#getResources(String)} of the respective resource name.
-     * E.g.
-     * <pre><code>importPackage("org.junit") -> getResources("/org/junit")</code></pre>
-     * However, this only works, if all respective archives contain an entry for the folder, which is not always the
-     * case. Consider the standard JRE "rt.jar", which does not contain an entry "/java/io", but nonetheless
-     * entries like "/java/io/File.class". Thus an import of "java.io", relying on
-     * {@link ClassLoader#getResources(String)}, would not import <code>java.io.File</code>.
+     * We used to call {@link ClassLoader#getResources(String)} for the given resource name here,
+     * but this had a number of disadvantages. One was that e.g. loading the package via
+     * <pre><code>importPackage("java.io") -> getResources("/java/io")</code></pre>
+     * did not behave correctly if archives were missing the respective folder entry.
+     * In other words, even if there is a {@code java/io/File.class} within the JAR,
+     * if the folder entry {@code java/io/} is missing, we will not detect that the package
+     * {@code java.io} contains this class.
+     * Unfortunately to optimize for space it seems to be too common to leave out folder
+     * entries from a JAR file to ignore this as a corner case.<br>
+     * Another problem that occurred was in combination with Android, since Gradle seemed to sometimes
+     * create JARs with package entries (Java libraries) and sometimes without (Android libraries).
+     * Then the test would start to behave inconsistently between running from Android Studio
+     * (where the classpath would contain file entries and thus all package resources were found)
+     * and via Gradle (where the classpath would contain JAR entries and for Android libraries
+     * the package entries were missing, even though they were present for Java libraries).
+     * Altogether we decided to drop using the {@link ClassLoader} and use
+     * the former workaround we had for cases where {@link ClassLoader#getResources(String)}
+     * would not return a result as the default way, since it seems to behave consistently
+     * for all the cases.
      */
-    private static Collection<Location> findMissedClassesDueToLackOfPackageEntry(
-            Iterable<URL> classpath, NormalizedResourceName resourceName) {
-
+    private static Collection<Location> getResourceLocations(NormalizedResourceName resourceName, Iterable<URL> classpath) {
         Set<Location> result = new HashSet<>();
-        for (Location location : archiveLocationsOf(classpath)) {
+        for (Location location : Locations.of(classpath)) {
             if (containsEntryWithPrefix(location, resourceName)) {
                 result.add(location.append(resourceName.toString()));
             }
@@ -159,15 +148,4 @@ public final class Locations {
         }
         return false;
     }
-
-    private static Set<Location> archiveLocationsOf(Iterable<URL> urls) {
-        return FluentIterable.from(Locations.of(urls))
-                .filter(new Predicate<Location>() {
-                    @Override
-                    public boolean apply(Location input) {
-                        return input.isArchive();
-                    }
-                }).toSet();
-    }
-
 }
